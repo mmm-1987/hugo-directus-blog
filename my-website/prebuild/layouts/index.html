@@ -1,0 +1,24 @@
+{{ with resources.GetRemote (printf "%s/items/pages" site.Params.api_url) }}
+    {{ $pages := unmarshal .Content }}
+    {{ range $pages.data }}
+        {{ $meta := dict "slug" .slug "title" .title }} 
+        {{ $metaJson := jsonify $meta }}
+        {{ $content := .content | safeHTML }}
+        {{ $output := printf "%s\n%s" $metaJson $content }}
+        {{ $filename := printf "content/%s.md" .slug }}
+        {{ $resource := resources.FromString $filename $output }} 
+        {{ $file := $resource.RelPermalink }} 
+    {{ end }}
+{{ end }}
+{{ with resources.GetRemote (printf "%s/items/Posts?fields[]=*.*" site.Params.api_url) }}
+    {{ $posts := unmarshal .Content }}
+    {{ range $posts.data }}
+        {{ $meta := dict "slug" .slug "title" .title "date" .publish_date "author" .author.name "image" .image.filename_disk }} 
+        {{ $metaJson := jsonify $meta }}
+        {{ $content := .content | safeHTML }}
+        {{ $output := printf "%s\n%s" $metaJson $content }}
+        {{ $filename := printf "content/blog/%s.md" .slug }}
+        {{ $resource := resources.FromString $filename $output }} 
+        {{ $file := $resource.RelPermalink }} 
+    {{ end }}
+{{ end }}

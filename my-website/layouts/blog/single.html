@@ -1,0 +1,8 @@
+{{ define "title" }}
+  {{ .Title }}
+{{ end }}
+{{ define "main" }}
+    <img src="{{ printf "%s/assets/%s?width=600" .Params.image }}">
+    <h2>{{ .Title }}</h2>
+    {{ .Content }}
+{{ end }}

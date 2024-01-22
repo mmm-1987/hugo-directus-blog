@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    {{ $global := getJSON (printf "%s/items/global" site.Params.api_url) }}
+    {{ $global.data.title }} -
+    {{ block "title" . }}
+    {{ end }}
+  </title>
+</head>
+
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/conduct">Code of Conduct</a>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/blog">Blog</a>
+  </nav>
+
+  <h1>{{ $global.data.title }}</h1>
+  <p>{{ $global.data.description }}</p>
+  {{ block "main" . }}
+  {{ end }}
+</body>
+
+</html>
