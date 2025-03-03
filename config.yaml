@@ -1,0 +1,11 @@
+- name: Build with Hugo
+  env:
+    HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
+    HUGO_ENVIRONMENT: production
+  run: |
+    if [ -f config.toml ] || [ -f config.yaml ] || [ -f config.json ]; then
+      hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+    else
+      echo "Hugo configuration file not found!"
+      exit 1
+    fi
